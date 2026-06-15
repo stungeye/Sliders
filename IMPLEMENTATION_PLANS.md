@@ -18,7 +18,7 @@ The phase context file should capture the decisions made, files changed, command
 
 If implementation work changes the plan, project direction, requirements, or important usage instructions, the agent must confirm with the user and then update `README.md`, `SPEC.md`, or this implementation plan as appropriate before closing the phase.
 
-The final act for an approved phase is to add and commit the phase changes to git. The commit should include the implementation work, the phase context file, and any documentation updates required by decisions made during the phase.
+The final act for an approved phase is to mark the phase (Implemented) in these plans, and add/commit the phase changes to git. The commit should include the implementation work, the phase context file, and any documentation updates required by decisions made during the phase.
 
 ## Guiding Constraints
 
@@ -30,7 +30,7 @@ The final act for an approved phase is to add and commit the phase changes to gi
 - Avoid backend assumptions, runtime servers, PDF generation, search, slide fragments, and CodePen support in the MVP.
 - Use red/green tests where practical for parsing, routing, ordering, component behavior, and rendering rules.
 
-## Phase 1: Project Scaffold
+## Phase 1: Project Scaffold (Implemented)
 
 ### Goals
 
