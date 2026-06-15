@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCourseIndex } from "../lib/contentDiscovery.js";
+import { toSitePath } from "../lib/siteUrls.js";
 
 type CourseIndexUnit = {
   slug: string;
@@ -41,8 +42,8 @@ const units: CourseIndexUnit[] = courseIndex.units;
                 <li class="course-index__module">
                   <span class="course-index__module-title">{module.title}</span>
                   <span class="course-index__module-links">
-                    <a href={module.routePath}>Notes</a>
-                    <a href={`${module.routePath}slides/`}>Slides</a>
+                    <a href={toSitePath(module.routePath)}>Notes</a>
+                    <a href={toSitePath(`${module.routePath}slides/`)}>Slides</a>
                   </span>
                 </li>
               ))}

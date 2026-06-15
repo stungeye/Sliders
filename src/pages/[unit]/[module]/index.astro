@@ -3,6 +3,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { createNotesMdxComponents } from "../../../components/mdx/createNotesMdxComponents.jsx";
 import { getCourseIndex } from "../../../lib/contentDiscovery.js";
 import { getModuleNotesData } from "../../../lib/moduleNotes.js";
+import { toSitePath } from "../../../lib/siteUrls.js";
 
 type CourseModule = {
   filePath: string;
@@ -65,7 +66,7 @@ const notesComponents = createNotesMdxComponents();
   <a class="skip-link" href="#module-content">Skip to module content</a>
 
   <nav class="module-breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Course index</a>
+    <a href={toSitePath("/")}>Course index</a>
     <span aria-hidden="true">/</span>
     <span>{unitTitle}</span>
   </nav>

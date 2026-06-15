@@ -114,6 +114,24 @@ Each module should have paired notes and slides views:
 
 Numeric prefixes stay in URLs but do not need to appear in visible titles.
 
+## Deployment
+
+The site is static and does not require a backend or runtime server. Production
+builds are configured for GitHub Pages at:
+
+```text
+https://stungeye.github.io/Sliders/
+```
+
+The Astro deployment base path is `/Sliders`, matching the GitHub repository
+name. If the repository is renamed or moved to a custom domain, update `site`
+and `base` in `astro.config.mjs` before deploying.
+
+GitHub Pages deployment is handled by `.github/workflows/deploy.yml` on pushes
+to `main`, plus manual runs from the Actions tab. In the repository web UI,
+Settings > Pages > Build and deployment > Source must be set to `GitHub Actions`.
+
 ## Current Status
 
-This repository currently contains the project specification and overview only. The first implementation pass should scaffold the Astro project and build the MVP described in [SPEC.md](./SPEC.md).
+This repository contains the Astro, MDX, React demo, static build, and GitHub
+Pages deployment foundation for the MVP described in [SPEC.md](./SPEC.md).

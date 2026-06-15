@@ -3,6 +3,8 @@ import react from "@astrojs/react";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
+  site: "https://stungeye.github.io",
+  base: "/Sliders",
   output: "static",
   integrations: [mdx(), react()],
   markdown: {

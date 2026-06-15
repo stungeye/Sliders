@@ -396,7 +396,7 @@ src/demos/GridExplorer/
 - Slides are projector-friendly and keyboard navigable.
 - UI styling is consistent across index, notes, slides, and demo pages.
 
-## Phase 11: Deployment
+## Phase 11: Deployment (Implemented)
 
 ### Goals
 

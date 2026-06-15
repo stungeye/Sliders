@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { getDemo, listDemos } from "../../../lib/demoRegistry.js";
+import { toSitePath } from "../../../lib/siteUrls.js";
 
 export function getStaticPaths() {
   return listDemos().map((demo) => ({
@@ -17,7 +18,7 @@ const DemoComponent = demo.component;
   <a class="skip-link" href="#demo-content">Skip to demo</a>
 
   <nav class="module-breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Course index</a>
+    <a href={toSitePath("/")}>Course index</a>
     <span aria-hidden="true">/</span>
     <span>Demos</span>
   </nav>

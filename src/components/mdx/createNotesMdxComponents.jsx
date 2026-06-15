@@ -1,5 +1,6 @@
 import { createHeadingIdSlugger, slugifyHeadingText } from "../../lib/headingIds.js";
 import { listDemos } from "../../lib/demoRegistry.js";
+import { toSitePath } from "../../lib/siteUrls.js";
 import { notesMdxComponents } from "./MdxComponents.jsx";
 
 export function createNotesMdxComponents() {
@@ -35,7 +36,7 @@ function createNotesDemoMdxComponents() {
               <a
                 aria-label={`Open ${demo.title} full screen in a new tab`}
                 className="notes-demo__link"
-                href={demo.routePath}
+                href={toSitePath(demo.routePath)}
                 rel="noreferrer noopener"
                 target="_blank"
               >
