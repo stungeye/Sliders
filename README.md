@@ -19,7 +19,9 @@ The intended implementation is Astro + MDX + React demos:
 - Syntax-highlighted Markdown code blocks
 - Static hosting only, with no backend
 
-See [SPEC.md](./SPEC.md) for the full implementation specification and the decisions captured from the initial design discussion.
+See [SPEC.md](./docs/implementation/SPEC.md) for the full implementation specification and the decisions captured from the initial design discussion.
+
+See [IMPLEMENTATION_PLANS.md](./docs/implementation/IMPLEMENTATION_PLANS.md) for the full implementation plan based on the spec.
 
 ## Implementation Philosophy
 
@@ -55,21 +57,15 @@ A grid starts with `display: grid`.
 }
 ```
 
-<Note>
-Grid layout applies to the direct children of the grid container.
-</Note>
+<Note>Grid layout applies to the direct children of the grid container.</Note>
 
-<Aside>
-This longer explanation appears in the notes view only.
-</Aside>
+<Aside>This longer explanation appears in the notes view only.</Aside>
 
 ## Template Areas
 
 <GridExplorer />
 
-<Warning>
-Named grid areas must form rectangles.
-</Warning>
+<Warning>Named grid areas must form rectangles.</Warning>
 ````
 
 ## Core Components
@@ -134,4 +130,4 @@ Settings > Pages > Build and deployment > Source must be set to `GitHub Actions`
 ## Current Status
 
 This repository contains the Astro, MDX, React demo, static build, and GitHub
-Pages deployment foundation for the MVP described in [SPEC.md](./SPEC.md).
+Pages deployment foundation for the MVP described in [SPEC.md](./docs/implementation/SPEC.md).

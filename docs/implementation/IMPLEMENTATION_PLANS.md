@@ -1,22 +1,22 @@
 # Sliders Implementation Plans
 
-This file translates `README.md` and `SPEC.md` into executable implementation phases. The goal is to build the MVP in small, reviewable increments while preserving the project direction: Astro, MDX, React demos, static output, simple authoring, and a polished fixed light theme.
+This file translates `README.md` and `docs/implementation/SPEC.md` into executable implementation phases. The goal is to build the MVP in small, reviewable increments while preserving the project direction: Astro, MDX, React demos, static output, simple authoring, and a polished fixed light theme.
 
 ## Phase Execution Protocol
 
-Each implementation phase is intended to be carried out by an agent in a fresh new conversation. The agent should begin by reading `README.md`, `SPEC.md`, this plan, and any prior phase context files before making changes.
+Each implementation phase is intended to be carried out by an agent in a fresh new conversation. The agent should begin by reading `README.md`, `docs/implementation/SPEC.md`, this plan, and any prior phase context files before making changes.
 
 At the end of each phase, the agent must ask the user to verify the system as it exists at that point. If the user agrees that the phase is complete, the agent must preserve important implementation context in a phase-specific markdown file, using this naming pattern:
 
 ```text
-PHASE-01.md
-PHASE-02.md
-PHASE-03.md
+docs\implementation\PHASE-01.md
+docs\implementation\PHASE-02.md
+docs\implementation\PHASE-03.md
 ```
 
 The phase context file should capture the decisions made, files changed, commands run, tests or checks performed, known limitations, and the recommended starting point for the next phase.
 
-If implementation work changes the plan, project direction, requirements, or important usage instructions, the agent must confirm with the user and then update `README.md`, `SPEC.md`, or this implementation plan as appropriate before closing the phase.
+If implementation work changes the plan, project direction, requirements, or important usage instructions, the agent must confirm with the user and then update `README.md`, `docs/implementation/SPEC.md`, or this implementation plan as appropriate before closing the phase.
 
 If a dev server was spawned for user testing, be sure to shut it down now.
 

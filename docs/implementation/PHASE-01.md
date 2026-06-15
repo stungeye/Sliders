@@ -2,7 +2,7 @@
 
 ## Summary
 
-Phase 1 created the Astro project foundation for Sliders. The scaffold supports MDX, React islands, static production builds, baseline testing, syntax-highlighted Markdown code blocks, and the source layout planned in `SPEC.md`.
+Phase 1 created the Astro project foundation for Sliders. The scaffold supports MDX, React islands, static production builds, baseline testing, syntax-highlighted Markdown code blocks, and the source layout planned in `docs/implementation/SPEC.md`.
 
 ## Decisions Made
 
