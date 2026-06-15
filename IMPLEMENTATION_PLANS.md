@@ -122,7 +122,7 @@ src/content/units/
 - A course index data structure can be generated from files alone.
 - Invalid or incomplete module structure fails with useful errors.
 
-## Phase 3: Course Index
+## Phase 3: Course Index (Implemented)
 
 ### Goals
 
