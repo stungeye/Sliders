@@ -3,6 +3,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { createNotesMdxComponents } from "../../../components/mdx/createNotesMdxComponents.jsx";
 import { getCourseIndex } from "../../../lib/contentDiscovery.js";
 import { getModuleNotesData } from "../../../lib/moduleNotes.js";
+import { siteMetadata } from "../../../lib/siteMetadata.js";
 import { toSitePath } from "../../../lib/siteUrls.js";
 
 type CourseModule = {
@@ -62,7 +63,7 @@ const { parsedModule, tableOfContents } = (await getModuleNotesData(module)) as 
 const notesComponents = createNotesMdxComponents();
 ---
 
-<BaseLayout title={`${parsedModule.title} | Sliders`} loadDemoClient>
+<BaseLayout title={`${parsedModule.title} | ${siteMetadata.siteTitle}`} loadDemoClient>
   <a class="skip-link" href="#module-content">Skip to module content</a>
 
   <nav class="module-breadcrumb" aria-label="Breadcrumb">

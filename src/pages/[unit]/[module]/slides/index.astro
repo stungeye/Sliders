@@ -3,6 +3,7 @@ import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import { createSlidesMdxComponents } from "../../../../components/mdx/createSlidesMdxComponents.jsx";
 import { getCourseIndex } from "../../../../lib/contentDiscovery.js";
 import { getModuleSlidesData } from "../../../../lib/moduleSlides.js";
+import { siteMetadata } from "../../../../lib/siteMetadata.js";
 
 type CourseModule = {
   filePath: string;
@@ -52,7 +53,11 @@ const { parsedModule, slideCount } = (await getModuleSlidesData(module)) as {
 const slidesComponents = createSlidesMdxComponents();
 ---
 
-<BaseLayout title={`${parsedModule.title} slides | Sliders`} bodyClass="slide-page" loadDemoClient>
+<BaseLayout
+  title={`${parsedModule.title} slides | ${siteMetadata.siteTitle}`}
+  bodyClass="slide-page"
+  loadDemoClient
+>
   <a class="skip-link" href="#slide-content">Skip to slide content</a>
 
   <div class="slide-shell" data-expected-slide-count={slideCount}>

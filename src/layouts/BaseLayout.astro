@@ -1,7 +1,8 @@
 ---
+import { siteMetadata } from "../lib/siteMetadata.js";
 import "../styles/global.css";
 
-const { bodyClass, loadDemoClient = false, title = "Sliders" } = Astro.props;
+const { bodyClass, loadDemoClient = false, title = siteMetadata.siteTitle } = Astro.props;
 ---
 
 <!doctype html>

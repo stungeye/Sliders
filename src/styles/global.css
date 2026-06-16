@@ -206,10 +206,6 @@ code {
   gap: var(--space-8);
 }
 
-.course-index__header {
-  max-width: 48rem;
-}
-
 .course-index__eyebrow {
   color: var(--color-accent-strong);
   font-size: 0.875rem;
@@ -222,7 +218,6 @@ code {
 .course-index__intro {
   color: var(--color-muted);
   font-size: 1.2rem;
-  max-width: 38rem;
 }
 
 .course-index__units {
@@ -565,10 +560,6 @@ code {
 .standalone-demo {
   display: grid;
   gap: var(--space-6);
-}
-
-.standalone-demo__header {
-  max-width: 48rem;
 }
 
 .standalone-demo__eyebrow {

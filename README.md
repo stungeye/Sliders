@@ -150,6 +150,39 @@ The Astro deployment base path is `/Sliders`, matching the GitHub repository
 name. If the repository is renamed or moved to a custom domain, update `site`
 and `base` in `astro.config.mjs` before deploying.
 
+### Forking for a Course
+
+When forking this project for a specific course, clone the fork and update the
+deployment target before publishing:
+
+1. Edit `astro.config.mjs`.
+2. Set `site` to your GitHub Pages host, such as
+   `https://YOUR_GITHUB_USERNAME.github.io`.
+3. Set `base` to the forked repository name, such as `/web-design-3-slides`.
+   The `base` value must match the repository name unless the site uses a
+   custom domain.
+4. Edit `src/lib/siteMetadata.js` to set the course label, site title, and
+   index page description for the course.
+5. In the forked repository on GitHub, go to Settings > Pages > Build and
+   deployment > Source and choose GitHub Actions.
+6. Run the local checks before pushing course-specific content:
+
+```text
+npm install
+npm run validate:authoring
+npm test
+npm run build
+```
+
+After the first push to `main`, confirm the Actions tab shows a successful
+deployment and visit the fork's Pages URL:
+
+```text
+https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPO_NAME/
+```
+
+If the repository is renamed later, update `base` in `astro.config.mjs` again.
+
 GitHub Pages deployment is handled by `.github/workflows/deploy.yml` on pushes
 to `main`, plus manual runs from the Actions tab. In the repository web UI,
 Settings > Pages > Build and deployment > Source must be set to `GitHub Actions`.

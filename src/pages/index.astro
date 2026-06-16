@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCourseIndex } from "../lib/contentDiscovery.js";
+import { siteMetadata } from "../lib/siteMetadata.js";
 import { toSitePath } from "../lib/siteUrls.js";
 
 type CourseIndexUnit = {
@@ -16,14 +17,12 @@ const courseIndex = await getCourseIndex();
 const units: CourseIndexUnit[] = courseIndex.units;
 ---
 
-<BaseLayout title="Sliders Course Index">
+<BaseLayout title={`${siteMetadata.siteTitle} Course Index`}>
   <section class="course-index" aria-labelledby="course-index-title">
     <header class="course-index__header">
-      <p class="course-index__eyebrow">Web Design 3</p>
-      <h1 id="course-index-title">Sliders</h1>
-      <p class="course-index__intro">
-        Teaching notes and classroom slides generated from the same MDX modules.
-      </p>
+      <p class="course-index__eyebrow">{siteMetadata.courseLabel}</p>
+      <h1 id="course-index-title">{siteMetadata.siteTitle}</h1>
+      <p class="course-index__intro">{siteMetadata.siteDescription}</p>
     </header>
 
     <div class="course-index__units" aria-label="Course units">

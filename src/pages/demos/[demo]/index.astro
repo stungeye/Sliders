@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { getDemo, listDemos } from "../../../lib/demoRegistry.js";
+import { siteMetadata } from "../../../lib/siteMetadata.js";
 import { toSitePath } from "../../../lib/siteUrls.js";
 
 export function getStaticPaths() {
@@ -14,7 +15,7 @@ const demo = getDemo(Astro.props.demoName);
 const DemoComponent = demo.component;
 ---
 
-<BaseLayout title={`${demo.title} demo | Sliders`} loadDemoClient>
+<BaseLayout title={`${demo.title} demo | ${siteMetadata.siteTitle}`} loadDemoClient>
   <a class="skip-link" href="#demo-content">Skip to demo</a>
 
   <nav class="module-breadcrumb" aria-label="Breadcrumb">
