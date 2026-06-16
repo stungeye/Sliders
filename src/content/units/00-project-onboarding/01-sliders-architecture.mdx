@@ -27,6 +27,30 @@ This is the main product decision. Sliders is not a general presentation builder
 When changing behavior, ask whether the change belongs to content discovery, source parsing, MDX component rendering, client-side slide behavior, or demo enhancement.
 </Practice>
 
+## The Triple Debt Lens
+
+This module borrows from Margaret-Anne Storey's triple debt model: software health depends on code quality, shared understanding, and captured intent. In Sliders, all three matter because the project is designed to be changed by humans and AI-assisted agents.
+
+```text
+technical debt   code is harder to change
+cognitive debt   the system is harder to understand
+intent debt      the system's purpose and constraints are unclear
+```
+
+For this project, technical debt shows up as brittle parsing, duplicated route behavior, fragile browser DOM manipulation, untested demo state, or CSS changes that improve one view while breaking another.
+
+Cognitive debt shows up when a maintainer can name the files but cannot explain the flow from MDX source to notes, slides, validation, and demo enhancement.
+
+Intent debt shows up when someone can make a technically correct change but cannot tell whether it serves the product: one authored module, two useful outputs, static hosting, explicit demos, accessible course material, and low-friction authoring.
+
+<Aside>
+The relevant paper is "From Technical Debt to Cognitive and Intent Debt: Rethinking Software Health in the Age of AI" by Margaret-Anne Storey: [arXiv:2603.22106](https://arxiv.org/pdf/2603.22106). The useful local takeaway is that passing tests is not enough. A future maintainer also needs the mental model and the decision record that make those tests meaningful.
+</Aside>
+
+<Warning>
+AI can reduce code-level effort while increasing understanding and intent risk. Treat explanations, tests, and rationale as part of the deliverable, not decoration after the implementation is done.
+</Warning>
+
 ## Astro And Route Architecture
 
 Astro owns routing, static generation, layouts, and build output. The project uses file-based routes under `src/pages`.
@@ -124,6 +148,10 @@ The parser does not render MDX. It only understands enough Markdown structure to
 <Note>
 The title slide is made from the H1 plus any opening content before the first H2. Every H2 after that becomes one slide and one notes table-of-contents entry.
 </Note>
+
+<Practice>
+When changing the parser, write the test as a statement of the authoring contract. A parser test should explain which source shape is supported, rejected, or intentionally ignored.
+</Practice>
 
 ## Notes Rendering Pipeline
 
@@ -252,6 +280,41 @@ When adding a demo, add metadata, register the component, add any client enhance
 The project avoids letting arbitrary local MDX imports define demos. That keeps authoring simple, makes unknown component references detectable, and gives the standalone demo route a single registry to read from.
 </Aside>
 
+## Intent And Product Constraints
+
+Sliders exists to help instructors author course material once and publish it as both long-form notes and lecture slides. That purpose should guide implementation choices more than framework novelty or feature breadth.
+
+The durable constraints are:
+
+```text
+one direct MDX file per module
+H1 creates the title slide
+H2 creates a slide and notes section
+notes and slides render from the same source
+demos are registered explicitly
+the site builds to static files
+internal links respect the configured base path
+accessibility is part of the output contract
+```
+
+The important non-goals are also part of the intent:
+
+```text
+not a general LMS
+not a drag-and-drop slide editor
+not a runtime-backed application
+not a system where every module imports custom local components
+not a parser for arbitrary Markdown and MDX structure
+```
+
+<Aside>
+These constraints are intent artifacts. If one changes, update this module, the README, and the tests that encode the old assumption. Otherwise future maintainers and agents will preserve obsolete constraints or violate current ones without noticing.
+</Aside>
+
+<Practice>
+When proposing a feature, write the sentence "This supports one-source teaching modules by..." before choosing the implementation.
+</Practice>
+
 ## Validation And Tests
 
 There are two safety nets: authoring validation for content conventions and Vitest tests for implementation behavior.
@@ -313,17 +376,51 @@ Production URLs use the `/Sliders` base path from `astro.config.mjs`.
 If the repository name or hosting target changes, check `site`, `base`, and every place route links are generated. The project already centralizes internal URL construction in `siteUrls.js`.
 </Note>
 
+## Debt Checks Before A Change
+
+Use this checklist before and after non-trivial changes. It is meant to keep code, understanding, and intent aligned.
+
+```text
+technical
+  What behavior boundary am I changing?
+  Which focused test proves it?
+  Could the change break both notes and slides?
+  Could it break GitHub Pages base-path output?
+
+cognitive
+  Can I trace the data flow in plain language?
+  Did I leave names and tests that explain the model?
+  Would a new maintainer know where this behavior lives?
+  Did I avoid hiding important behavior in clever glue code?
+
+intent
+  Which product goal does this serve?
+  Which authoring constraint does it preserve or change?
+  Is the rationale recorded in README, docs, tests, or this module?
+  Would an AI agent have enough context to continue safely?
+```
+
+<Aside>
+The strongest debt reduction artifact is often a small test with a precise name plus a short note explaining why the behavior exists. Tests preserve executable intent; notes preserve rationale; walkthrough-friendly code preserves shared understanding.
+</Aside>
+
+<Warning>
+Do not let generated explanations stand in for understanding. Use AI to draft, compare, and check, but still trace the code path yourself before accepting a design.
+</Warning>
+
 ## Taking Over Development
 
 Start with the content contract, then follow the data flow from index discovery to route rendering to client enhancement.
 
 ```text
 1. Read README.md and this module.
-2. Run npm test and npm run validate:authoring.
-3. Open the course index in dev mode.
-4. Compare one notes page with its slide page.
-5. Trace the module through contentDiscovery, moduleNotes, moduleSlides, and the Astro route.
-6. Inspect one demo from registry to React component to client enhancer.
+2. Skim the implementation spec and phase docs for original decisions.
+3. Run npm test and npm run validate:authoring.
+4. Open the course index in dev mode.
+5. Compare one notes page with its slide page.
+6. Trace the module through contentDiscovery, moduleNotes, moduleSlides, and the Astro route.
+7. Inspect one demo from registry to React component to client enhancer.
+8. Explain the system back from memory, then check what you missed.
 ```
 
 The most important files to know first are:
@@ -344,6 +441,10 @@ src/styles/global.css
 <Practice>
 For most feature work, keep the source MDX contract stable unless the product explicitly needs a new authoring primitive. A small rendering change is usually safer than expanding what the parser accepts.
 </Practice>
+
+<Aside>
+If a change uncovers a hidden assumption, externalize it. Put stable product intent in README or this onboarding module, implementation rationale in docs or tests, and executable expectations in Vitest or authoring validation.
+</Aside>
 
 <Wait>
 The architecture is simple on purpose. The hard part is preserving the guarantee that one human-authored module remains enough to produce useful notes, useful slides, and validated static output.
