@@ -186,6 +186,14 @@ URLs keep numeric prefixes:
 
 The course index should list units and module titles. Numeric prefixes do not need to appear as visible text; ordered lists or layout can communicate sequence.
 
+Module `.mdx` files are supported as direct children of each unit folder:
+
+```text
+src/content/units/{unit}/{module}.mdx
+```
+
+Nested folders under a unit are reserved for supporting assets such as images. Nested `.mdx` module routes are not part of the MVP unless content discovery and route import paths are changed together.
+
 ## Notes View
 
 The notes view is the primary student-facing accessible output.
@@ -269,15 +277,15 @@ Authoring target:
 <GridExplorer />
 ```
 
-Recommended auto-mapping:
+The MVP uses an explicit demo registry in `src/lib/demoRegistry.js` rather than auto-discovery. Registered demos can be referenced with simple PascalCase tags:
 
 ```text
 src/demos/GridExplorer/GridExplorer.jsx -> <GridExplorer />
-src/demos/FlexShelf/FlexShelf.jsx       -> <FlexShelf />
-src/demos/FluidType/FluidType.jsx       -> <FluidType />
 ```
 
 The build should fail when a module references a demo component that cannot be resolved.
+
+Demo reference validation supports known teaching primitives and registered simple PascalCase component tags. Member-style MDX component names such as `<Demo.Widget />` are not part of the MVP authoring contract.
 
 Demo components:
 
@@ -337,7 +345,7 @@ The generated course index should be convention-based.
 
 Requirements:
 
-- Scan `src/content/units/**/**/*.mdx`.
+- Scan direct module files at `src/content/units/{unit}/{module}.mdx`.
 - Group modules by unit folder.
 - Sort units and modules by numeric prefixes.
 - Display unit titles with numeric prefixes removed or visually de-emphasized.
@@ -345,6 +353,8 @@ Requirements:
 - Link each module title to its notes view.
 
 No module frontmatter should be required for MVP.
+
+Subfolders under unit folders may contain assets, but nested `.mdx` files are intentionally ignored by the MVP discovery contract.
 
 ## Accessibility Direction
 
@@ -441,13 +451,17 @@ The first implementation should include:
 - Demos should work fluidly at common overhead projector resolutions.
 - Accessibility should be handled by design and review for now.
 
-## Open Implementation Questions
+## Final MVP Implementation Decisions
 
-These are intentionally left for the implementation phase:
+The MVP resolved the original implementation questions as follows:
 
-- Exact Astro route implementation for deriving notes and slides from the same MDX source.
-- Whether demo auto-registration is implemented through generated imports, MDX provider mapping, Vite `import.meta.glob`, or an explicit registry generated at build time.
-- How strict slide overflow detection should be, if any.
-- Whether the sticky TOC is hand-built or uses an existing Astro integration.
-- Exact visual design tokens and typography.
-- Whether React or Preact should be used if bundle size becomes a concern.
+- Notes and slides use Astro's normal MDX rendering pipeline from the same module source.
+- Slide pages render the whole MDX document once, then `src/lib/slideDeckController.js` groups the rendered DOM into slides in the browser.
+- Slide pages emit `data-expected-slide-count`; the slide controller checks the rendered slide count against parser metadata and fails clearly if they diverge.
+- Demo registration is explicit in `src/lib/demoRegistry.js`.
+- Demo references are validated at build time against teaching primitives and registered simple PascalCase demo names.
+- Current demos render deterministic initial markup and use `src/lib/demoClientEntrypoint.js` for browser-only progressive enhancement.
+- The table of contents is custom, generated from plain text `##` headings, and rendered as part of the notes route.
+- The theme uses fixed light design tokens in `src/styles/global.css`.
+- React remains the demo component runtime for the MVP.
+- Slide overflow remains a manual authoring responsibility; no automated overflow detection is part of the MVP.

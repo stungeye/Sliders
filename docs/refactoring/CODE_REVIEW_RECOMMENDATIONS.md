@@ -307,7 +307,7 @@ The most important correctness issue is accessibility in `SemanticStructureDemo`
 - Fix HPI-8 / BE-4 / SC-5: use `data-expected-slide-count` as a guard in `setupSlideDeck()`.
 - Fix BE-7: add `tabindex="-1"` to the static slide source element for no-JavaScript skip-link focus.
 
-### Phase B: Documentation alignment
+### Phase B: Documentation alignment (Implemented)
 
 - Address DOC-1 / DOC-2 / DOC-3: update README status, authoring constraints, and implementation-plan filename guidance.
 - Address DOC-4 / DOC-5: add final implementation decisions to the SPEC and align content scanning language with supported routing.

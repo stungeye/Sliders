@@ -29,11 +29,16 @@ MDX tag, such as `<GridExplorer />`, without imports or frontmatter.
 
 The important demo decisions already made are:
 
-- React is the default runtime for interactive teaching demos.
+- React is the default component technology for demo markup.
 - Demo registration is explicit in `src/lib/demoRegistry.js`.
 - Unregistered uppercase MDX component references fail clearly at build time.
 - Registered demos render in notes, slides, and standalone `/demos/.../` pages.
 - Standalone demo pages use the same site shell and fixed light theme.
+- Demo components embedded in MDX currently render as deterministic static markup
+  unless a route intentionally hydrates them.
+- Browser interaction for the current `GridExplorer` production path is attached
+  by `src/lib/demoClientEntrypoint.js` and
+  `src/demos/GridExplorer/gridExplorerClient.js`.
 - `GridExplorer` is the pattern for future full-featured demos, but it is not a
   framework.
 - Demos should generally combine controls, visual output, and generated code
@@ -65,8 +70,8 @@ The flow is intentionally explicit:
 4. Notes and slides render the same registered component.
 5. `src/pages/demos/[demo]/index.astro` creates standalone demo test pages from
    the registry.
-6. `src/lib/demoClientEntrypoint.js` attaches any browser-only progressive
-   enhancement after the page loads.
+6. `src/lib/demoClientEntrypoint.js` attaches registered browser-only
+   progressive enhancement after the page loads.
 
 Keep this explicit model. Do not introduce auto-discovery, a demo framework, or
 a new registry system unless the user asks for that broader change.
@@ -109,8 +114,7 @@ Follow these conventions:
   when useful, and an accessible label.
 - Use labeled native controls: `label`, `select`, `input`, `button`, and
   checkboxes before custom widgets.
-- Store React state for values that affect the initial render and component
-  tests.
+- Render deterministic initial values without depending on browser JavaScript.
 - Use CSS custom properties for visual state that CSS should own.
 - Use `LiveCodeBlock` for generated HTML, CSS, or JS panes instead of building
   one-off highlighted code markup.
@@ -124,8 +128,13 @@ output.
 
 ## Client Enhancement Pattern
 
-Only create a client module when behavior needs browser APIs or should be shared
-across server-rendered instances after Astro page loads.
+Demo components embedded through module MDX are not automatically hydrated. For
+the current MVP model, production interaction belongs in a client enhancement
+module unless the route intentionally opts into a hydrated island.
+
+Only create a client module when behavior needs browser APIs, when interaction
+must run on MDX-rendered static markup, or when setup should be shared across
+server-rendered instances after Astro page loads.
 
 The setup function should look like this in spirit:
 
@@ -146,10 +155,11 @@ Then call it from `setupRegisteredDemos()` in `src/lib/demoClientEntrypoint.js`.
 The setup function must be idempotent because it runs on first load and on
 `astro:page-load`.
 
-Prefer React state for normal component interaction. Use the client module for
-behavior that is awkward or impossible to express safely in the server-rendered
-React component, such as pointer resizing, DOM measurements, or re-highlighting
-already-rendered code.
+For unhydrated MDX demos, do not rely on React event handlers for production
+behavior. If a future demo is intentionally hydrated, keep normal control
+behavior in React and reserve client helper modules for behavior that is awkward
+or impossible to express safely in the hydrated component, such as pointer
+resizing, DOM measurements, or re-highlighting already-rendered code.
 
 ## Layout And Styling
 
@@ -185,8 +195,8 @@ Every demo should meet these minimums:
 - Motion and resizing do not block reading or keyboard navigation.
 - The slide keyboard handler does not steal keys from focused demo controls.
 
-When adding unusual keyboard behavior, check `src/lib/slideNavigation.js` so demo
-controls and slide navigation do not conflict.
+When adding unusual keyboard behavior, check `src/lib/slideDeckController.js` so
+demo controls and slide navigation do not conflict.
 
 ## Tests And Verification
 
@@ -195,7 +205,9 @@ Add focused tests for behavior that can be checked deterministically.
 Typical test coverage:
 
 - the demo renders its labeled controls, preview/output, and code panes
-- changing controls updates preview state and generated code
+- client enhancement changes controls, preview state, and generated code when
+  the demo is unhydrated
+- hydrated React interaction works when a route intentionally hydrates the demo
 - client setup is idempotent when a client module exists
 - keyboard behavior works for custom controls such as separators
 
@@ -245,8 +257,10 @@ Before handing off a new demo:
 
 - Do not add a demo component without registering it; MDX references must fail
   clearly when unresolved.
-- Do not put required behavior only in a client script if the React component can
-  render it directly.
+- Do not rely on React event handlers for production behavior unless the route
+  intentionally hydrates the demo.
+- Do not put deterministic initial content only in a client script if the React
+  component can render it directly.
 - Do not make demo setup functions non-idempotent; Astro page-load events can run
   setup more than once.
 - Do not hard-code production base paths. Use the existing site URL helpers and

@@ -11,7 +11,7 @@ The first target course is Web Design 3 at Red River College, with content focus
 
 ## Project Direction
 
-The intended implementation is Astro + MDX + React demos:
+The implementation is Astro + MDX + React demos:
 
 - Astro for static site generation and GitHub Pages output
 - MDX for Markdown authoring with embedded components
@@ -33,7 +33,7 @@ When choosing between two correct implementations, prefer the one that is easier
 
 ## Authoring Model
 
-Each module is one `.mdx` file. Heading levels define the slide and notes structure:
+Each module is one direct `.mdx` file inside a unit folder. Heading levels define the slide and notes structure:
 
 - `#` is the module title and title slide.
 - `##` starts a new slide and a new major notes section.
@@ -68,6 +68,17 @@ A grid starts with `display: grid`.
 <Warning>Named grid areas must form rectangles.</Warning>
 ````
 
+### Authoring Constraints
+
+The current MVP keeps authoring convention-based:
+
+- Module files live directly under `src/content/units/{unit}/`; nested `.mdx` files are ignored unless nested routing is added later.
+- Subfolders under a unit are reserved for local assets such as images.
+- Modules do not require frontmatter or local MDX imports.
+- Use one plain text `#` module title and plain text `##` section headings. Rich inline markup in headings is not part of the supported MVP authoring contract.
+- Demo components must be registered in `src/lib/demoRegistry.js` and referenced with simple PascalCase tags such as `<GridExplorer />`.
+- Unknown uppercase MDX component tags fail validation unless they are known teaching primitives or registered demos.
+
 ## Core Components
 
 Sliders modules use MDX components for teaching primitives:
@@ -79,7 +90,9 @@ Sliders modules use MDX components for teaching primitives:
 - `<Aside>` renders only in notes view, not slide view
 - Demo components such as `<GridExplorer />` embed interactive teaching tools
 
-## Planned Source Layout
+Current demos render deterministic initial markup through Astro/MDX and attach any browser behavior through registered client enhancement code.
+
+## Source Layout
 
 ```text
 src/
@@ -99,9 +112,9 @@ src/
 
 Unit and module ordering should come from numeric folder/file prefixes. Display titles should come from each module's `# H1`.
 
-## Planned URLs
+## URLs
 
-Each module should have paired notes and slides views:
+Each module has paired notes and slides views:
 
 ```text
 /02-css-layout/01-grid/
@@ -129,5 +142,7 @@ Settings > Pages > Build and deployment > Source must be set to `GitHub Actions`
 
 ## Current Status
 
-This repository contains the Astro, MDX, React demo, static build, and GitHub
-Pages deployment foundation for the MVP described in [SPEC.md](./docs/implementation/SPEC.md).
+This repository contains the completed static MVP described in
+[SPEC.md](./docs/implementation/SPEC.md): course index, notes pages, slide
+views, explicit demo registry, Grid Explorer, standalone demo pages, static
+build, and GitHub Pages deployment.

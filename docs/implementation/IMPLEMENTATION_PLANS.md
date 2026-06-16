@@ -103,7 +103,7 @@ src/content/units/
   - an `<Aside>`
   - one demo placeholder
 - Build utility functions to:
-  - scan `src/content/units/**/*.mdx`
+  - scan direct `.mdx` module files under `src/content/units/{unit}/`
   - sort unit folders by numeric prefix
   - sort modules by numeric prefix
   - derive route slugs from folders and filenames
@@ -448,14 +448,17 @@ src/demos/GridExplorer/
 - CodePen support.
 - Slide overflow detection beyond manual authoring discipline.
 
-## Open Decisions To Resolve During Implementation
+## Resolved Implementation Decisions
 
-- Exact route implementation for deriving notes and slides from the same MDX source.
-- Demo mapping strategy: generated imports, `import.meta.glob`, explicit registry, or MDX provider mapping.
-- Whether sticky TOC should be custom or use an Astro integration.
-- Final visual design tokens and typography.
-- Whether React remains the right demo runtime if bundle size becomes a concern.
-- How strict malformed-content validation should be beyond the required heading rules.
+- Notes and slides are derived from the same direct unit-level MDX module files through Astro's MDX pipeline.
+- Course discovery intentionally scans only direct `.mdx` children of each unit folder; nested folders are for assets unless nested routing is added later.
+- Demo mapping uses the explicit registry in `src/lib/demoRegistry.js`.
+- Unknown uppercase MDX component tags fail validation unless they are known teaching primitives or registered simple PascalCase demos.
+- The notes table of contents is custom and based on plain text `##` headings.
+- Slides use browser-side DOM grouping in `src/lib/slideDeckController.js`, guarded by `data-expected-slide-count`.
+- Final visual design tokens and typography live in `src/styles/global.css` as a fixed light theme.
+- React remains the demo component runtime for the MVP, with browser-only behavior attached through registered client enhancement modules.
+- Malformed content validation covers the required heading rules and demo-reference contract; richer authoring validation is deferred until content needs it.
 
 ## Recommended First Work Slice
 
