@@ -1,6 +1,6 @@
 export const siteMetadata = Object.freeze({
-  courseLabel: "Web Design 3",
-  siteTitle: "Sliders",
+  courseLabel: "Third Time's a Charm",
+  siteTitle: "Web Design 3",
   siteDescription:
-    "Teaching notes and classroom slides generated from the same MDX modules.",
+    "Plan clearly. Build semantically. Style intentionally. Verify then iterate.",
 });
