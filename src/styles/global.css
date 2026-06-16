@@ -201,21 +201,6 @@ code {
   color: var(--color-muted);
 }
 
-.theme-sample,
-.react-counter {
-  background: var(--color-surface);
-  border: var(--border-thin);
-  border-radius: var(--radius-medium);
-  box-shadow: var(--shadow-subtle);
-  margin-block: var(--space-6);
-  padding: var(--space-6);
-}
-
-.theme-sample p,
-.react-counter p {
-  color: var(--color-muted);
-}
-
 .course-index {
   display: grid;
   gap: var(--space-8);
