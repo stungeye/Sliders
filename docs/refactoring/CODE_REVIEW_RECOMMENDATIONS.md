@@ -299,7 +299,7 @@ The most important correctness issue is accessibility in `SemanticStructureDemo`
 
 ## Recommended Refactoring and Repair Plan
 
-### Phase A: Safe bug fixes
+### Phase A: Safe bug fixes (Implemented)
 
 - Fix HPI-1 / BE-5 / BE-8: hide or neutralize `SemanticStructureDemo` visual landmark markup and clean up its accessible name.
 - Fix HPI-4 / BE-1 / SC-4: restrict content discovery to direct `.mdx` children of unit folders, or make nested routes/imports fully consistent.

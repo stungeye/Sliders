@@ -5,9 +5,9 @@ export default function SemanticStructureDemo() {
     <section
       className="semantic-structure-demo"
       role="group"
-      aria-label="Semantic Structure Demo demo"
+      aria-label="Semantic structure demo"
     >
-      <div className="semantic-structure-demo__page" aria-label="Page structure preview">
+      <div className="semantic-structure-demo__page" aria-hidden="true">
         <header>header</header>
         <nav>nav</nav>
         <main>main</main>

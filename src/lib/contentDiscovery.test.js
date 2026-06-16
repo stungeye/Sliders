@@ -88,6 +88,23 @@ describe("content discovery", () => {
     );
   });
 
+  it("ignores nested MDX files that routes cannot import", async () => {
+    const unitsDirectory = await createUnitsFixture({
+      "01-semantic-html": {
+        "01-introduction.mdx": "# Semantic HTML\n\n## Meaning\n",
+      },
+    });
+    const nestedDirectory = path.join(unitsDirectory, "01-semantic-html", "examples");
+    await mkdir(nestedDirectory);
+    await writeFile(path.join(nestedDirectory, "01-draft.mdx"), "## Missing Title\n", "utf8");
+
+    const courseIndex = await getCourseIndex(unitsDirectory);
+
+    expect(courseIndex.units[0].modules.map((module) => module.slug)).toEqual([
+      "01-introduction",
+    ]);
+  });
+
   it("removes numeric prefixes from display unit titles", () => {
     expect(formatDisplayTitle("01-semantic-html")).toBe("Semantic HTML");
     expect(formatDisplayTitle("02-css-layout")).toBe("CSS Layout");

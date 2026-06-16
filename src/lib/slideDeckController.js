@@ -101,7 +101,13 @@ export function setupSlideDeck(root = document) {
     return undefined;
   }
 
+  const expectedSlideCountValue = sourceElement
+    .closest("[data-expected-slide-count]")
+    ?.getAttribute("data-expected-slide-count");
   const slides = buildSlideSections(sourceElement, root);
+
+  assertExpectedSlideCount(expectedSlideCountValue, slides.length);
+
   let activeIndex = setActiveSlide(slides, 0, statusElement);
 
   root.body?.classList.add("slides-ready");
@@ -127,6 +133,20 @@ export function setupSlideDeck(root = document) {
     },
     slides,
   };
+}
+
+function assertExpectedSlideCount(expectedSlideCountValue, actualSlideCount) {
+  if (!expectedSlideCountValue) {
+    return;
+  }
+
+  const expectedSlideCount = Number.parseInt(expectedSlideCountValue, 10);
+
+  if (expectedSlideCount !== actualSlideCount) {
+    throw new Error(
+      `Slide count mismatch: expected ${expectedSlideCount}, found ${actualSlideCount}.`,
+    );
+  }
 }
 
 function isSlideHeading(node) {

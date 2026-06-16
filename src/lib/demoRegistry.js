@@ -76,7 +76,7 @@ export function validateDemoReferences(source, { filePath = "MDX source" } = {})
 }
 
 export function findMdxComponentReferences(source) {
-  const sourceWithoutFences = stripFencedCodeBlocks(source);
+  const sourceWithoutFences = stripIgnoredMdxRegions(source);
   const componentNames = new Set();
   const componentPattern = /<\/?([A-Z][A-Za-z0-9]*)\b/g;
 
@@ -89,6 +89,16 @@ export function findMdxComponentReferences(source) {
 
 function getDemoRoutePath(name) {
   return `/demos/${name}/`;
+}
+
+function stripIgnoredMdxRegions(source) {
+  return stripComments(stripFencedCodeBlocks(source));
+}
+
+function stripComments(source) {
+  return source
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
+    .replace(/<!--[\s\S]*?-->/g, "");
 }
 
 function stripFencedCodeBlocks(source) {

@@ -56,6 +56,14 @@ describe("demo registry", () => {
     ).toEqual(["Note", "GridExplorer"]);
   });
 
+  it("ignores uppercase MDX component references inside comments", () => {
+    expect(
+      findMdxComponentReferences(
+        "# Demo\n\n{/* <MissingMdxCommentDemo /> */}\n\n<!-- <MissingHtmlCommentDemo /> -->\n\n<GridExplorer />",
+      ),
+    ).toEqual(["GridExplorer"]);
+  });
+
   it("passes known demos and built-in teaching components", () => {
     expect(() =>
       validateDemoReferences(
@@ -78,5 +86,16 @@ describe("demo registry", () => {
     ).toThrow(
       "Unresolved MDX demo component in src/content/units/01-demo/01-missing.mdx: <MissingDemo />.",
     );
+  });
+
+  it("hides the semantic structure preview landmarks from assistive technology", () => {
+    const SemanticStructureDemo = getDemo("SemanticStructureDemo").component;
+
+    render(<SemanticStructureDemo />);
+
+    expect(
+      screen.getByRole("group", { name: "Semantic structure demo" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("main")).not.toBeInTheDocument();
   });
 });

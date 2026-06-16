@@ -40,7 +40,7 @@ describe("slide deck keyboard navigation", () => {
 describe("slide deck setup", () => {
   it("wraps one title slide plus one slide per h2", () => {
     document.body.innerHTML = `
-      <main>
+      <main data-expected-slide-count="3">
         <div id="slide-content" data-slide-source>
           <h1>CSS Grid</h1>
           <p>Opening content.</p>
@@ -68,6 +68,21 @@ describe("slide deck setup", () => {
     expect(document.querySelector("[data-slide-status]")).toHaveAttribute(
       "aria-label",
       "Slide 1 of 3",
+    );
+  });
+
+  it("fails clearly when the expected slide count differs from the rendered deck", () => {
+    document.body.innerHTML = `
+      <main data-expected-slide-count="3">
+        <div data-slide-source>
+          <h1>Title</h1>
+          <h2>First Section</h2>
+        </div>
+      </main>
+    `;
+
+    expect(() => setupSlideDeck(document)).toThrow(
+      "Slide count mismatch: expected 3, found 2.",
     );
   });
 

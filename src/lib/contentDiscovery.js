@@ -115,23 +115,10 @@ export function compareNumericPrefixes(left, right) {
 
 async function findMdxFiles(directoryPath) {
   const entries = await readdir(directoryPath, { withFileTypes: true });
-  const filePaths = await Promise.all(
-    entries.map(async (entry) => {
-      const entryPath = path.join(directoryPath, entry.name);
 
-      if (entry.isDirectory()) {
-        return findMdxFiles(entryPath);
-      }
-
-      if (entry.isFile() && entry.name.endsWith(mdxExtension)) {
-        return entryPath;
-      }
-
-      return [];
-    }),
-  );
-
-  return filePaths.flat();
+  return entries
+    .filter((entry) => entry.isFile() && entry.name.endsWith(mdxExtension))
+    .map((entry) => path.join(directoryPath, entry.name));
 }
 
 function compareModulePaths(left, right) {
