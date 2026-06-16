@@ -92,11 +92,11 @@ module file placement, and the plain text `#`/`##` heading convention.
 
 Sliders modules use MDX components for teaching primitives:
 
-- `<Note>` renders `Note:`
-- `<Warning>` renders `Warning:`
-- `<Practice>` renders `Best Practice:`
-- `<Wait>` renders `Wait For It:`
-- `<Aside>` renders only in notes view, not slide view
+- `<Note>` renders `Note:` (For adding important information you don't want learners to miss.)
+- `<Warning>` renders `Warning:` (Warnings to prepare learners for common bugs and “gotchas”.)
+- `<Practice>` renders `Best Practice:` (For highlighting industry best practices.)
+- `<Wait>` renders `Wait For It:` (Indications that more details will be provided later in the notes or in future modules.)
+- `<Aside>` renders only in notes view, not slide view (Let's us flesh out more details or examples that wouldn't fit on a slide.)
 - Demo components such as `<GridExplorer />` embed interactive teaching tools
 
 Current demos render deterministic initial markup through Astro/MDX and attach
