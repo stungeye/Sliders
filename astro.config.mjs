@@ -4,7 +4,7 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   site: "https://stungeye.github.io",
-  base: "/Web-Design-3/",
+  base: "/Sliders/",
   output: "static",
   integrations: [mdx(), react()],
   markdown: {
